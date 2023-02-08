@@ -146,7 +146,7 @@ class Player {
     this.setPlayerValue();
   }
   setPlayerValue() {
-    this.playerType === "first" ? this.playerValue = 1 : this.playerValue = -1;
+    this.playerType === "first" ? this.playerValue = -1 : this.playerValue = 1;
   }
   setCreatePieces() {
     let i = 0;
@@ -169,7 +169,7 @@ class Player {
     }
   }
   getStartingIndice(val) {
-    return val === 1 
+    return val === -1 
       ? this.indexMatch.moveableSquares.slice(this.indexMatch.moveableSquares.indexOf(40), this.indexMatch.moveableSquares.length) 
       : this.indexMatch.moveableSquares.slice(0, this.indexMatch.moveableSquares.indexOf(23) + 1);
   }
@@ -181,27 +181,57 @@ class Player {
   }
 
   lookupSquareClass() {
-    console.log(this.indexMatch);
-    console.log(this.squareClasses);
+    // console.log(this.indexMatch);
+    // console.log(this.squareClasses);
   }
 
-  makeMove(otherPlayer) {
+  makeMove(otherPlayer, checkers) {
     // this.lookupSquareClass();
-    console.log(`${this.playerName} made a turn`);
+    // console.log(`${this.playerName} made a turn`);
+
     let randomCapture = Math.floor(Math.random() * 3) + 1;
-    if (otherPlayer.pieces.length !== 0) {
-      otherPlayer.pieces.splice(0, randomCapture);
-      otherPlayer.updateTotalPieces(otherPlayer.totalPieces);
-      console.log(
-        `Random capture: ${randomCapture},
-        Other players pieces left: ${otherPlayer.totalPiecesLeft}
-        My total Piece left: ${this.totalPiecesLeft}`
-        )
-        this.lookupSquareClass();
-    }
-    // console.log(randomCapture);
-    // console.log(otherPlayer.pieces.length);
-    // console.log(otherPlayer.totalPiecesLeft);
+    // this.pieces.forEach((piece) => {
+    //   piece.divElem.addEventListener("click", () => {
+    //     console.log(piece.startingIndex, this);
+    //     // if (checkers.currentPlayer !== null) {
+    //     //   checkers.renderTurn(checkers.currentPlayerTurn, otherPlayer);
+    //     // } else {
+    //     //   checkers.renderTurn(this, otherPlayer);
+    //     // }
+    //     checkers.renderTurn(this, otherPlayer);
+    //   })
+    // })
+    // this.pieces.addEventListener("click", (e) => {
+    //   if (!e.target) return;
+    //   console.log("clicked");
+    //   console.log(`clicked by: ${this.playerName}. Other player is ${otherPlayer.playerName}`);
+
+    //   let theOtherPlayer = checkers.returnOtherPlayer(checkers.currentPlayerTurn, checkers.players);
+
+    //   // if(checkers.currentPlayer = this) return;
+    //   theOtherPlayer.makeMove(theOtherPlayer, checkers);
+
+      // checkers.renderTurn(this, otherPlayer);
+      // checkers.currentPlayerTurn.makeMove(otherPlayer, checkers);
+    // })
+
+    
+
+
+  //   if (otherPlayer.pieces.length !== 0) {
+  //     // otherPlayer.pieces.splice(0, randomCapture);
+  //     // otherPlayer.updateTotalPieces(otherPlayer.totalPieces);
+  //     // console.log(
+  //     //   `Random capture: ${randomCapture},
+  //     //   Other players pieces left: ${otherPlayer.totalPiecesLeft}
+  //     //   My total Piece left: ${this.totalPiecesLeft}`
+  //     //   )
+  //     //   // this.lookupSquareClass();
+  //     //   // console.log(this.pieces);
+  //   }
+  //   // console.log(randomCapture);
+  //   // console.log(otherPlayer.pieces.length);
+  //   // console.log(otherPlayer.totalPiecesLeft);
     
   }
 }
@@ -217,33 +247,44 @@ class Checkers {
   }
   //gameplay
   play() {
-    this.currentPlayerTurn === null ? this.renderFirstMove() : this.render();
+    this.renderFirstMove();
   }
   renderFirstMove() {
     this.renderPlayerStartingPieces(this.players);
     this.setFirstTurn(this.players);
     this.render();
   }
-  returnOtherPlayer(currentPlayerTurn, players) {
-    return players.filter((player) => player !== currentPlayerTurn)[0];
-  }
+  // returnOtherPlayer(currentPlayerTurn, players) {
+  //   return players.filter((player) => player !== currentPlayerTurn)[0];
+  // }
   render() {
-    let otherPlayer = this.returnOtherPlayer(this.currentPlayerTurn, this.players);
-    this.renderMoves(this.currentPlayerTurn, otherPlayer);
+    this.renderMoves(this.currentPlayerTurn, this.otherPlayerTurn);
   }
     //render regular moves
   renderMoves(currentPlayer, otherPlayer) {
-    currentPlayer.makeMove(otherPlayer);
-    this.renderTurn(this.currentPlayerTurn, otherPlayer);
+    // currentPlayer.makeMove(otherPlayer, checkers);
+    // this.renderTurn(this.currentPlayerTurn, otherPlayer);
+
+    this.domElement.addEventListener("click", (e) => {
+      console.log(e.target);
+      console.log("current:", this.currentPlayerTurn);
+      console.log("other:", this.otherPlayerTurn);
+      this.renderTurn(this.currentPlayerTurn, this.otherPlayerTurn);
+    })
   }
   renderTurn(currentPlayerTurn, otherPlayer) {
     let winner = this.checkForWinner(currentPlayerTurn, otherPlayer);
     if (winner === null) {
       this.switchTurn(currentPlayerTurn, otherPlayer);
+      console.log("new current",this.currentPlayerTurn);
+      console.log("new new other",this.otherPlayerTurn);
+      console.log('1');
+      // this.render();
+      // this.renderMoves(this.currentPlayerTurn, this.otherPlayerTurn);
+      // this.renderMoves(this.currentPlayerTurn, otherPlayerForThisTurn);
       
-      let otherPlayerForThisTurn = this.returnOtherPlayer(this.currentPlayerTurn, this.players);
-      
-      this.play();
+      // this.play();
+      // currentPlayerTurn.makeMove(otherPlayer, this);
     } else {
       this.winner = winner;
       this.endGame(winner);
@@ -268,9 +309,17 @@ class Checkers {
     currentPlayerTurn.turn = false;
     otherPlayer.turn = true;
     this.currentPlayerTurn = otherPlayer;
+    this.otherPlayerTurn = currentPlayerTurn;
   }
   setFirstTurn(players) {
-    this.currentPlayerTurn = players.filter((player) => player.playerType === "first")[0];
+    players.forEach(player => {
+      if (player.playerType === "first") {
+        this.currentPlayerTurn = player;
+      } else {
+        this.otherPlayerTurn = player;
+      }
+    })
+    // this.currentPlayerTurn = players.filter((player) => player.playerType === "first")[0];
   }
   setBoard() {
     this.squares = this.squareEls.map((square, indx) => new Square(square, indx));
