@@ -173,48 +173,122 @@ class Player {
       ? this.indexMatch.moveableSquares.slice(this.indexMatch.moveableSquares.indexOf(40), this.indexMatch.moveableSquares.length) 
       : this.indexMatch.moveableSquares.slice(0, this.indexMatch.moveableSquares.indexOf(23) + 1);
   }
-  //having a class of squares for each player, makes it easier to look up
-  // div and index match for making moves, capturing (removing and moving)
   setSquareClassSearch(checkersObj) {
     this.squareClasses = checkersObj.squares.filter((square, idx) => this.indexMatch.moveableSquares.includes(idx));
   }
 
-  lookupSquareClass() {
-    // console.log(this.indexMatch);
-    // console.log(this.squareClasses);
+  checkAntiDiagonalDirection(playerTurn, indexVal) {
+    return Math.abs(playerTurn * (-indexVal) + (-7));
+  }
+  checkDiagonalDirection(playerTurn, indexVal) {
+    return Math.abs(playerTurn * (-indexVal) + (-9));
+  }
+  checkMovesAvailable(indexVal, checkers) {
+    let availableMoves = [];
+    //-1
+    if (checkers.currentPlayerTurn.playerValue === -1) {
+      //first row check
+      if (this.indexMatch.firstRow.includes(indexVal)) {
+        if (this.indexMatch.firstRowCorner.includes(indexVal)) {
+          let possibleIndexSpace = this.checkAntiDiagonalDirection(-checkers.currentPlayerTurn.playerValue, indexVal);
+          return [possibleIndexSpace];
+        }
+        let antiDiagonal = this.checkAntiDiagonalDirection(-checkers.currentPlayerTurn.playerValue, indexVal);
+        let diagonal = this.checkDiagonalDirection(-checkers.currentPlayerTurn.playerValue, indexVal);
+          return [antiDiagonal, diagonal];
+      }
+      //antidiagonal check
+      if (this.indexMatch.edgesAntiDiagonal.includes(indexVal)) {
+        let antiDiagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
+        return [antiDiagonal];
+      }
+      //diagonal check
+      if (this.indexMatch.edgesDiagonal.includes(indexVal)) {
+        let diagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
+        return [diagonal];
+      }
+      //allDiagonal check
+      if (this.indexMatch.allDiagonal.includes(indexVal)) {
+        let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
+        let diagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
+        return [diagonal, antiDiagonal];
+      }
+      //lastRow check
+      if (this.indexMatch.lastRow.includes(indexVal)) {
+        if (this.indexMatch.lastRowCorner.includes(indexVal)) {
+          let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
+          return [diagonal, antiDiagonal];
+        }
+
+        let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
+        let diagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
+        return [diagonal, antiDiagonal];
+      }
+    }
+
+
+    //1
+    if (checkers.currentPlayerTurn.playerValue === 1) {
+      //last row check
+      if (this.indexMatch.lastRow.includes(indexVal)) {
+        if (this.indexMatch.lastRowCorner.includes(indexVal)) {
+          let possibleIndexSpace = this.checkAntiDiagonalDirection(-checkers.currentPlayerTurn.playerValue, indexVal);
+          return [possibleIndexSpace];
+        }
+        let antiDiagonal = this.checkAntiDiagonalDirection(-checkers.currentPlayerTurn.playerValue, indexVal);
+        let diagonal = this.checkDiagonalDirection(-checkers.currentPlayerTurn.playerValue, indexVal);
+          return [antiDiagonal, diagonal];
+      }
+      //antidiagonal check
+      if (this.indexMatch.edgesAntiDiagonal.includes(indexVal)) {
+        let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
+        return [antiDiagonal];
+      }
+      //diagonal check
+      if (this.indexMatch.edgesDiagonal.includes(indexVal)) {
+        let diagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
+        return [diagonal];
+      }
+      //allDiagonal check
+      if (this.indexMatch.allDiagonal.includes(indexVal)) {
+        let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
+        let diagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
+        return [diagonal, antiDiagonal];
+      }
+      //firstRow check
+      if (this.indexMatch.firstRow.includes(indexVal)) {
+        if (this.indexMatch.firstRowCorner.includes(indexVal)) {
+          let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
+          return [antiDiagonal];
+        }
+
+        let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
+        let diagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
+        return [diagonal, antiDiagonal];
+      }
+    }
+
+
+
+
   }
 
   makeMove(checkers) {
-    // checkers.domElement.addEventListener("click", (e) => {
-    //   console.log(e.target);
-    //   checkers.renderTurn(checkers.currentPlayerTurn, checkers.otherPlayerTurn);
-    // })
-    this.squareClasses.forEach((squareClass) => {
-      
+    this.squareClasses.forEach((squareClass) => { 
       squareClass.domSquareElement.addEventListener("click", (e) => {
+        //check if square is occupying current player's piece, means same value
         if (squareClass.value !== checkers.currentPlayerTurn.playerValue) return;
-
-        console.log("current player:", checkers.currentPlayerTurn);
-        console.log(checkers.currentPlayerTurn.playerValue)
-        console.log("right piece to click for this turn");
+        console.log(squareClass.value);
+        console.log(squareClass.index);
+        console.log(this.indexMatch);
+        console.log(this.checkMovesAvailable(squareClass.index, checkers));
+        
+        
 
         checkers.renderTurn(checkers.currentPlayerTurn, checkers.otherPlayerTurn);
       })
       
     })
-
-    // this.squareClasses.forEach(squareClass => {
-    //   console.log(squareClass);
-    //   squareClass.forEach((square) => {
-    //     let idx = square.index;
-    //     square.domSquareElement.addEventListener("click", (e) => {
-    //       console.log(e.target);
-    //       checkers.renderTurn(checkers.currentPlayerTurn, checkers.otherPlayerTurn);
-    //     })
-    //   })
-    // })
-
-
   }
 }
 class Checkers {
