@@ -185,13 +185,36 @@ class Player {
   }
 
   makeMove(checkers) {
-    checkers.domElement.addEventListener("click", (e) => {
-      console.log(e.target);
-      console.log(checkers.currentPlayerTurn, checkers.currentPlayerTurn.turn);
-      console.log(this.pieces);
-      console.log(checkers.domElement);
-      checkers.renderTurn(checkers.currentPlayerTurn, checkers.otherPlayerTurn);
+    // checkers.domElement.addEventListener("click", (e) => {
+    //   console.log(e.target);
+    //   checkers.renderTurn(checkers.currentPlayerTurn, checkers.otherPlayerTurn);
+    // })
+    this.squareClasses.forEach((squareClass) => {
+      
+      squareClass.domSquareElement.addEventListener("click", (e) => {
+        if (squareClass.value !== checkers.currentPlayerTurn.playerValue) return;
+
+        console.log("current player:", checkers.currentPlayerTurn);
+        console.log(checkers.currentPlayerTurn.playerValue)
+        console.log("right piece to click for this turn");
+
+        checkers.renderTurn(checkers.currentPlayerTurn, checkers.otherPlayerTurn);
+      })
+      
     })
+
+    // this.squareClasses.forEach(squareClass => {
+    //   console.log(squareClass);
+    //   squareClass.forEach((square) => {
+    //     let idx = square.index;
+    //     square.domSquareElement.addEventListener("click", (e) => {
+    //       console.log(e.target);
+    //       checkers.renderTurn(checkers.currentPlayerTurn, checkers.otherPlayerTurn);
+    //     })
+    //   })
+    // })
+
+
   }
 }
 class Checkers {
