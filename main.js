@@ -184,7 +184,6 @@ class Player {
     return Math.abs(playerTurn * (-indexVal) + (-9));
   }
   checkMovesAvailable(indexVal, checkers) {
-    let availableMoves = [];
     //-1
     if (checkers.currentPlayerTurn.playerValue === -1) {
       //last row check
@@ -209,8 +208,6 @@ class Player {
         return [diagonal, antiDiagonal];
       }
     }
-
-
     //1
     if (checkers.currentPlayerTurn.playerValue === 1) {
       //last row check
@@ -249,30 +246,26 @@ class Player {
     }
   }
 
+  lookUpAllMoves(arrToPush, squareClassIndex, checkers) {    
+    if (this.indexMatch.lastRowCorner.includes(squareClassIndex) ||
+    this.indexMatch.firstRowCorner.includes(squareClassIndex)) {
+      let possibleIdxSpace = this.checkIfCorner(checkers, this.indexMatch, squareClassIndex);
+      arrToPush.push([possibleIdxSpace]);
+    }
+    let morePossibleMoves = this.checkMovesAvailable(squareClassIndex, checkers);
+    arrToPush.push(morePossibleMoves);
+  }
   makeMove(checkers) {
     this.squareClasses.forEach((squareClass) => { 
       squareClass.domSquareElement.addEventListener("click", (e) => {
-        console.log("------")
-        console.log(squareClass);
-        console.log("------end of class lists")
-        //check if square is occupying current player's piece, means same value
         let possibleMovesIdx = [];
-
         if (squareClass.value !== checkers.currentPlayerTurn.playerValue) return;
-        if (this.indexMatch.lastRowCorner.includes(squareClass.index) ||
-        this.indexMatch.firstRowCorner.includes(squareClass.index)) {
-          let possibleIdxSpace = this.checkIfCorner(checkers, this.indexMatch, squareClass.index);
-          possibleMovesIdx.push(possibleIdxSpace);
-        }
-        let morePossibleMoves = this.checkMovesAvailable(squareClass.index, checkers);
-        possibleMovesIdx.push(morePossibleMoves);
+        this.lookUpAllMoves(possibleMovesIdx, squareClass.index, checkers);
         possibleMovesIdx = possibleMovesIdx.filter((number) => number !== undefined)[0];
-
-
-        checkers.renderTurn(checkers.currentPlayerTurn, checkers.otherPlayerTurn);
-
-      })
       
+        //turn ends
+        checkers.renderTurn(checkers.currentPlayerTurn, checkers.otherPlayerTurn);
+      })
     })
   }
 }
