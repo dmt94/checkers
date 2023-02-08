@@ -252,19 +252,10 @@ class Checkers {
   renderFirstMove() {
     this.renderPlayerStartingPieces(this.players);
     this.setFirstTurn(this.players);
-    this.render();
-  }
-  // returnOtherPlayer(currentPlayerTurn, players) {
-  //   return players.filter((player) => player !== currentPlayerTurn)[0];
-  // }
-  render() {
-    this.renderMoves(this.currentPlayerTurn, this.otherPlayerTurn);
+    this.renderMoves();
   }
     //render regular moves
-  renderMoves(currentPlayer, otherPlayer) {
-    // currentPlayer.makeMove(otherPlayer, checkers);
-    // this.renderTurn(this.currentPlayerTurn, otherPlayer);
-
+  renderMoves() {
     this.domElement.addEventListener("click", (e) => {
       console.log(e.target);
       console.log("current:", this.currentPlayerTurn);
@@ -276,15 +267,6 @@ class Checkers {
     let winner = this.checkForWinner(currentPlayerTurn, otherPlayer);
     if (winner === null) {
       this.switchTurn(currentPlayerTurn, otherPlayer);
-      console.log("new current",this.currentPlayerTurn);
-      console.log("new new other",this.otherPlayerTurn);
-      console.log('1');
-      // this.render();
-      // this.renderMoves(this.currentPlayerTurn, this.otherPlayerTurn);
-      // this.renderMoves(this.currentPlayerTurn, otherPlayerForThisTurn);
-      
-      // this.play();
-      // currentPlayerTurn.makeMove(otherPlayer, this);
     } else {
       this.winner = winner;
       this.endGame(winner);
