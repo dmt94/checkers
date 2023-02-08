@@ -184,9 +184,14 @@ class Player {
     // console.log(this.squareClasses);
   }
 
-  makeMove(otherPlayer, checkers) {
-    let randomCapture = Math.floor(Math.random() * 3) + 1;
-    
+  makeMove(checkers) {
+    checkers.domElement.addEventListener("click", (e) => {
+      console.log(e.target);
+      console.log(checkers.currentPlayerTurn, checkers.currentPlayerTurn.turn);
+      console.log(this.pieces);
+      console.log(checkers.domElement);
+      checkers.renderTurn(checkers.currentPlayerTurn, checkers.otherPlayerTurn);
+    })
   }
 }
 class Checkers {
@@ -209,12 +214,7 @@ class Checkers {
   }
     //render regular moves
   renderMoves() {
-    this.domElement.addEventListener("click", (e) => {
-      console.log(e.target);
-      console.log("current:", this.currentPlayerTurn);
-      console.log("other:", this.otherPlayerTurn);
-      this.renderTurn(this.currentPlayerTurn, this.otherPlayerTurn);
-    })
+    this.currentPlayerTurn.makeMove(this);
   }
   renderTurn(currentPlayerTurn, otherPlayer) {
     let winner = this.checkForWinner(currentPlayerTurn, otherPlayer);
@@ -250,11 +250,12 @@ class Checkers {
     players.forEach(player => {
       if (player.playerType === "first") {
         this.currentPlayerTurn = player;
+        this.currentPlayerTurn.turn = true;
       } else {
         this.otherPlayerTurn = player;
+        this.otherPlayerTurn.turn = false;
       }
     })
-    // this.currentPlayerTurn = players.filter((player) => player.playerType === "first")[0];
   }
   setBoard() {
     this.squares = this.squareEls.map((square, indx) => new Square(square, indx));
@@ -328,12 +329,12 @@ class Checkers {
   }) 
 }//end of Checkers Class
 
+let cherry = new Player("Cherry");
+let lemon = new Player("Lemon");
 init();
 
 function init() {
   boardEL.style.display = "none";
-  let cherry = new Player("Cherry");
-  let lemon = new Player("Lemon");
   renderPlayers(cherry, lemon);
   setGame(cherry, lemon);
   startGame();
