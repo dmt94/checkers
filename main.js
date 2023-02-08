@@ -187,39 +187,23 @@ class Player {
     let availableMoves = [];
     //-1
     if (checkers.currentPlayerTurn.playerValue === -1) {
-      //first row check
-      if (this.indexMatch.firstRow.includes(indexVal)) {
-        if (this.indexMatch.firstRowCorner.includes(indexVal)) {
-          let possibleIndexSpace = this.checkAntiDiagonalDirection(-checkers.currentPlayerTurn.playerValue, indexVal);
-          return [possibleIndexSpace];
-        }
-        let antiDiagonal = this.checkAntiDiagonalDirection(-checkers.currentPlayerTurn.playerValue, indexVal);
-        let diagonal = this.checkDiagonalDirection(-checkers.currentPlayerTurn.playerValue, indexVal);
-          return [antiDiagonal, diagonal];
-      }
+      //last row check
       //antidiagonal check
       if (this.indexMatch.edgesAntiDiagonal.includes(indexVal)) {
+        console.log("in antidiagonal");
         let antiDiagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
         return [antiDiagonal];
       }
       //diagonal check
-      if (this.indexMatch.edgesDiagonal.includes(indexVal)) {
+      else if (this.indexMatch.edgesDiagonal.includes(indexVal)) {
+        console.log("in diagonal");
         let diagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
         return [diagonal];
       }
       //allDiagonal check
-      if (this.indexMatch.allDiagonal.includes(indexVal)) {
-        let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
-        let diagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
-        return [diagonal, antiDiagonal];
-      }
-      //lastRow check
-      if (this.indexMatch.lastRow.includes(indexVal)) {
-        if (this.indexMatch.lastRowCorner.includes(indexVal)) {
-          let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
-          return [diagonal, antiDiagonal];
-        }
-
+      else if (this.indexMatch.allDiagonal.includes(indexVal)) {
+        console.log("in all Diagonal");
+      
         let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
         let diagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
         return [diagonal, antiDiagonal];
@@ -255,37 +239,38 @@ class Player {
         let diagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
         return [diagonal, antiDiagonal];
       }
-      //firstRow check
-      if (this.indexMatch.firstRow.includes(indexVal)) {
-        if (this.indexMatch.firstRowCorner.includes(indexVal)) {
-          let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
-          return [antiDiagonal];
-        }
-
-        let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
-        let diagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
-        return [diagonal, antiDiagonal];
-      }
     }
-
-
-
-
+  }
+  checkIfCorner(checkers, match, sqIdx) {
+    if (match.lastRowCorner.includes(sqIdx) ||
+    match.firstRowCorner.includes(sqIdx)) {
+      let val =  checkers.currentPlayerTurn.playerValue;
+      return this.checkAntiDiagonalDirection(val, sqIdx);
+    }
   }
 
   makeMove(checkers) {
     this.squareClasses.forEach((squareClass) => { 
       squareClass.domSquareElement.addEventListener("click", (e) => {
+        console.log("------")
+        console.log(squareClass);
+        console.log("------end of class lists")
         //check if square is occupying current player's piece, means same value
+        let possibleMovesIdx = [];
+
         if (squareClass.value !== checkers.currentPlayerTurn.playerValue) return;
-        console.log(squareClass.value);
-        console.log(squareClass.index);
-        console.log(this.indexMatch);
-        console.log(this.checkMovesAvailable(squareClass.index, checkers));
-        
-        
+        if (this.indexMatch.lastRowCorner.includes(squareClass.index) ||
+        this.indexMatch.firstRowCorner.includes(squareClass.index)) {
+          let possibleIdxSpace = this.checkIfCorner(checkers, this.indexMatch, squareClass.index);
+          possibleMovesIdx.push(possibleIdxSpace);
+        }
+        let morePossibleMoves = this.checkMovesAvailable(squareClass.index, checkers);
+        possibleMovesIdx.push(morePossibleMoves);
+        possibleMovesIdx = possibleMovesIdx.filter((number) => number !== undefined)[0];
+
 
         checkers.renderTurn(checkers.currentPlayerTurn, checkers.otherPlayerTurn);
+
       })
       
     })
