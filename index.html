@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkers</title>
+  <link rel="stylesheet" href="style.css">
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+/>
+  <script defer src="main.js"></script>
+</head>
+<body class="flex-c">
+  <div class="main-container flex-c">
+    <header class="flex-c">
+      <h1 id="winning-message">WINNER</h1>
+      <h2 id="cherry-text">Fruit</h2>
+      <h2>Checkers</h2>
+    </header>
+    <div id="popup-roll-dice" class="flex-c">
+      <h3 id="first-player-indicator">Who goes First?</h3>
+      <button id="roll-dice-btn">Roll Dice</button>
+      <div class="flex-r">
+        <div class="flex-c">
+          <h4 id="name1" class="names">Cherry</h4>
+          <h2 id="roll-indicator-n1">0</h2>
+        </div>
+        <div class="flex-c">
+          <h4 id="name2" class="names">Lemon</h4>
+          <h2 id="roll-indicator-n2">0</h2>
+        </div>
+      </div>
+      <button id="start-game-btn">></button>
+    </div>
+  </div>
+  <div id="gameboard">
+    <!--top to bottom-->
+    <!--first row-->
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+
+    <!--second row-->
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+
+    <!--third row-->
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+
+    <!--fourth row-->
+    <div class="square"></div>
+    <div class="square">
+
+    </div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+
+    <!--fifth row-->
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+
+    <!--sixth row-->
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+
+    <!--seventh row-->
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    
+    <!--eigth row-->
+    <div class="square">
+      <!-- <div class="checker-piece cherry-piece"></div> -->
+    </div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square">
+    </div>
+    <div class="square">
+    </div>
+
+  </div>
+</body>
+</html>
+
+<!-- <div class="checker-piece p2-piece"></div> -->
