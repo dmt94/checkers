@@ -173,7 +173,6 @@ class Player {
       ? this.indexMatch.moveableSquares.slice(this.indexMatch.moveableSquares.indexOf(40), this.indexMatch.moveableSquares.length) 
       : this.indexMatch.moveableSquares.slice(0, this.indexMatch.moveableSquares.indexOf(23) + 1);
   }
-
   //having a class of squares for each player, makes it easier to look up
   // div and index match for making moves, capturing (removing and moving)
   setSquareClassSearch(checkersObj) {
@@ -186,56 +185,10 @@ class Player {
   }
 
   makeMove(otherPlayer, checkers) {
-    // this.lookupSquareClass();
-    // console.log(`${this.playerName} made a turn`);
-
     let randomCapture = Math.floor(Math.random() * 3) + 1;
-    // this.pieces.forEach((piece) => {
-    //   piece.divElem.addEventListener("click", () => {
-    //     console.log(piece.startingIndex, this);
-    //     // if (checkers.currentPlayer !== null) {
-    //     //   checkers.renderTurn(checkers.currentPlayerTurn, otherPlayer);
-    //     // } else {
-    //     //   checkers.renderTurn(this, otherPlayer);
-    //     // }
-    //     checkers.renderTurn(this, otherPlayer);
-    //   })
-    // })
-    // this.pieces.addEventListener("click", (e) => {
-    //   if (!e.target) return;
-    //   console.log("clicked");
-    //   console.log(`clicked by: ${this.playerName}. Other player is ${otherPlayer.playerName}`);
-
-    //   let theOtherPlayer = checkers.returnOtherPlayer(checkers.currentPlayerTurn, checkers.players);
-
-    //   // if(checkers.currentPlayer = this) return;
-    //   theOtherPlayer.makeMove(theOtherPlayer, checkers);
-
-      // checkers.renderTurn(this, otherPlayer);
-      // checkers.currentPlayerTurn.makeMove(otherPlayer, checkers);
-    // })
-
-    
-
-
-  //   if (otherPlayer.pieces.length !== 0) {
-  //     // otherPlayer.pieces.splice(0, randomCapture);
-  //     // otherPlayer.updateTotalPieces(otherPlayer.totalPieces);
-  //     // console.log(
-  //     //   `Random capture: ${randomCapture},
-  //     //   Other players pieces left: ${otherPlayer.totalPiecesLeft}
-  //     //   My total Piece left: ${this.totalPiecesLeft}`
-  //     //   )
-  //     //   // this.lookupSquareClass();
-  //     //   // console.log(this.pieces);
-  //   }
-  //   // console.log(randomCapture);
-  //   // console.log(otherPlayer.pieces.length);
-  //   // console.log(otherPlayer.totalPiecesLeft);
     
   }
 }
-
 class Checkers {
   constructor(domElement, players, messageElement) {
     this.domElement = domElement;
