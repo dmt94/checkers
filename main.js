@@ -263,7 +263,29 @@ class Player {
             class: squareClass,
             availableMoves: avMovesForTarget
           }
-          console.log(targetObj);
+          
+          // add event listeners that are in availableMoves
+          let availableMovesSqEls = [];
+          targetObj.availableMoves.forEach((idx) => {
+            let availableMovesSqCl = checkers.currentPlayerTurn.squareClasses.filter(sqClass => sqClass.index === idx)[0];
+            availableMovesSqEls.push(availableMovesSqCl);
+          })
+          
+          availableMovesSqEls.forEach((sqElsClass) => {
+            sqElsClass.domSquareElement.style.backgroundColor = "red";
+            sqElsClass.domSquareElement.addEventListener("click", () => {
+
+              checkers.currentPlayerTurn.pieces.forEach(piece => {    
+                if (piece === pieceClicked) {
+                  sqElsClass.domSquareElement.append(piece.divElem);
+                }      
+            })
+              console.log("clicked");
+            })
+          })
+
+
+
           
         }
       })
