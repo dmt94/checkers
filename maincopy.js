@@ -88,18 +88,14 @@ class Piece {
     this.player = player;
     this.currentIndexVal = null;
     this.style = {
-      "Cherry": {
-        className: 'cherry-piece',
-        suggestion: 'cherry-t',
-        // image: 'https://cdn-icons-png.flaticon.com/512/7441/7441890.png',
+      "Blueberry": {
+        className: 'blueberry-piece',
         image: 'https://cdn-icons-png.flaticon.com/512/1791/1791354.png',
-        imgIconClassName: "cherry-icon",
+        imgIconClassName: "blueberry-icon",
       },
       "Lemon": {
         className: "lemon-piece",
-        suggestion: "lemon-t",
         image: 'https://cdn-icons-png.flaticon.com/512/2732/2732012.png',
-        // image: 'https://cdn-icons-png.flaticon.com/512/7441/7441890.png',
         imgIconClassName: "lemon-icon",
       },
       shape: 'checker-piece',
@@ -189,16 +185,19 @@ class Player {
       //last row check
       //antidiagonal check
       if (this.indexMatch.edgesAntiDiagonal.includes(indexVal)) {
+        console.log("in antidiagonal");
         let antiDiagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
         return [antiDiagonal];
       }
       //diagonal check
       else if (this.indexMatch.edgesDiagonal.includes(indexVal)) {
+        console.log("in diagonal");
         let diagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
         return [diagonal];
       }
       //allDiagonal check
       else if (this.indexMatch.allDiagonal.includes(indexVal)) {
+        console.log("in all Diagonal");
       
         let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
         let diagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
@@ -255,32 +254,47 @@ class Player {
   }
 
   // checkIfSpaceAvailable()
-
-
   makeMove(checkers) {
-    
-    checkers.currentPlayerTurn.squareClasses.forEach((squareClass) => {
-      //class properties
-      let index = squareClass.index;
-      let value = squareClass.value;
-      let squareElm = squareClass.domSquareElement;
-      let possibleMovesIdx = this.lookUpAllMoves(squareClass.index, checkers);
-
+    checkers.currentPlayerTurn.squareClasses.forEach((squareClass) => { 
       squareClass.domSquareElement.addEventListener("click", (e) => {
-        console.log("Current turn", checkers.currentPlayerTurn.playerName);
 
         if (squareClass.value !== checkers.currentPlayerTurn.playerValue) return;
-        console.log(possibleMovesIdx);
+        
+        let currentPieceClicked = checkers.currentPlayerTurn.pieces.filter((piece) => piece.startingIndex === squareClass.index)[0];
+        
+        let pieceIdx = currentPieceClicked.startingIndex;
+        let possibleMovesIdx = this.lookUpAllMoves(squareClass.index, checkers);
 
-        checkers.renderTurn(checkers.currentPlayerTurn, checkers.otherPlayerTurn);
+
+        //suggestion moves on null squares
+        checkers.currentPlayerTurn.squareClasses.forEach((sC) => {
+          if (possibleMovesIdx.includes(sC.index) && sC.value === null) {
+
+            sC.domSquareElement.addEventListener("click", (e) => {
+              console.log("clicked");
+              checkers.currentPlayerTurn.pieces.forEach(piece => {
+                if (piece.startingIndex === squareClass.index) {
+                  sC.domSquareElement.append(piece.divElem);
+                  squareClass.value = null;
+                  sC.value = currentPieceClicked.value;
+                  piece.startingIndex = sC.index;
+                }
+              })
+              
+              //end turn after player makes a move
+              checkers.renderTurn(checkers.currentPlayerTurn, checkers.otherPlayerTurn);
+              
+            })
+          }
+        }
+        )
+
+      
+
+        //turn ends, eventually set end turn condition
+        
       })
-
-
     })
-
-
-
-    
   }
 }
 
@@ -419,14 +433,14 @@ class Checkers {
   }) 
 }//end of Checkers Class
 
-let cherry = new Player("Cherry");
+let blueberry = new Player("Blueberry");
 let lemon = new Player("Lemon");
 init();
 
 function init() {
   boardEL.style.display = "none";
-  renderPlayers(cherry, lemon);
-  setGame(cherry, lemon);
+  renderPlayers(blueberry, lemon);
+  setGame(blueberry, lemon);
   startGame();
 }
 function setGame(n1, n2) {

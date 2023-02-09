@@ -6,10 +6,18 @@
   padding: 0;
   letter-spacing: 0.2vmin;
   font-family: 'Poppins', sans-serif;
+  color: rgb(252, 243, 184);
 }
 
 body {
-  background-color: rgb(41, 40, 44);
+  background-color: rgb(29, 28, 31);
+}
+
+.blueberry-img {
+  width: 20vmin;
+  position: absolute;
+  top: -13vmin;
+  left: 15vmin;
 }
 
 .main-container {
@@ -29,6 +37,7 @@ body {
 
 header {
   padding: 2vmin;
+  margin-bottom: 4vmin;
 }
 
 header h2 {
@@ -45,18 +54,48 @@ header h2 {
   visibility: hidden;
 }
 
-#cherry-text {
+#blueberry-text {
   color: rgb(163, 163, 255);
 }
 
 /* Choice Divs */
 #popup-roll-dice {
-  background-color: #fcebe8;
+  background-color: #21115df2;
+  border: 2px solid rgb(245, 240, 240);
   width: 30vmin;
-  height: 40vmin;
+  height: 39vmin;
   position: absolute;
   top: 20vmin;
+  padding: 10vmin 10vmin 9vmin 10vmin;
+  border-radius: 50px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.background {
+  background-color: #e4e1f2cb;
+  border: 1px solid rgb(255, 233, 233);
+  width: 30vmin;
+  height: 39vmin;
+  position: absolute;
+  bottom: -3vmin;
+  right: -3vmin;
+  z-index: -1;
   justify-content: center;
+  padding: 10vmin 10vmin 9vmin 10vmin;
+  border-radius: 50px;
+}
+
+#popup-roll-dice h3 {
+  font-size: 4vmin;
+  text-align: center;
+  color: rgb(255, 255, 255);
+    font-family: 'Unbounded', cursive;
+}
+#popup-roll-dice h4 {
+  font-size: 4vmin;
+}
+#popup-roll-dice h2 {
+  font-size: 7vmin;
 }
 
 #gameboard .square {
@@ -66,6 +105,36 @@ header h2 {
   align-items: center;
   border: 0.3vmin solid rgba(238, 227, 140, 0.511);
   border-radius: 0.2vmin;
+}
+
+#roll-dice-btn {
+  background-color: #574acf;
+  font-size: 5vmin;
+  border-radius: 50px;
+  margin: 2vmin;
+  width: 10vmin;
+  height: 10vmin;
+  border: none;
+  /* border: 1px solid rgba(255, 255, 255, 0.851); */
+  box-shadow: rgba(240, 248, 86, 0.919) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+#roll-dice-btn:hover {
+  cursor: pointer;
+  background-color: #2a2556;
+}
+#start-game-btn {
+  padding: 2vmin;
+  background-color: #c4cf4a;
+  border-radius: 20px;
+  border: none;
+  color:rgba(0, 0, 0, 0.928);
+  font-size: 2.4vmin;
+  font-family: 'Unbounded', cursive;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+#start-game-btn:hover {
+  cursor: pointer;
+  background-color: #c34bfa;
 }
 
 #gameboard 
@@ -167,45 +236,19 @@ header h2 {
 
 #gameboard
 .square 
-.cherry-piece {
+.blueberry-piece {
   border: 1.1vmin solid rgba(53, 54, 52, 0.932);
   background: linear-gradient(309deg, #bbccff, #9887f67c);
   box-shadow: rgba(92, 86, 86, 0.967) 0px 25px 20px -20px;
-  /* z-index: 2; */
 }
 
-/* #gameboard
-.square 
-.cherry-piece {
-  background: linear-gradient(137deg, #fdfff647, #ff4949);
-  border: 1vmin solid rgb(244, 79, 57);
-} */
-
-/* KING STYLE */
-/* #gameboard
-.square 
-.cherry-piece:hover {
-  border: 1.2vmin solid rgb(247, 25, 25);
-} 
-#gameboard
-.square 
-.cherry-piece:hover,
-#gameboard
-.square 
-.cherry-piece:hover
-.cherry-icon
- {
-  width: 10vmin;
-  height: 10vmin;
-}  */
-
-.cherry-icon {
+.blueberry-icon {
   border-radius: 0px;
 }
 
 #gameboard 
 .moveable-square:hover 
-.cherry-icon {
+.blueberry-icon {
   filter: blur(0);
   animation: swing;
   animation-duration: 1s;
@@ -215,20 +258,14 @@ header h2 {
 
 #gameboard 
 .square 
-.cherry-t {
+.suggestion {
   width: 8vmin;
   height: 8vmin;
   border-radius: 50px;
-  background: rgba(213, 117, 117, 0.583);
+  background: rgba(252, 238, 238, 0.583);
 }
 
 /* Fonts */
 .names {
   padding: 2vmin;
-}
-
-/* Buttons */
-#roll-dice-btn {
-  padding: 1vmin;
-  margin: 2vmin;
 }
