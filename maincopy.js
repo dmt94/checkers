@@ -252,35 +252,45 @@ class Player {
   // checkIfSpaceAvailable()
   makeMove(checkers) {
     checkers.currentPlayerTurn.squareClasses.forEach((squareClass) => { 
+      // console.log(squareClass);
       squareClass.domSquareElement.addEventListener("click", (e) => {
+        console.log(checkers.currentPlayerTurn.playerName);
+        
 
         if (squareClass.value !== checkers.currentPlayerTurn.playerValue) return;
         
         let currentPieceClicked = checkers.currentPlayerTurn.pieces.filter((piece) => piece.startingIndex === squareClass.index)[0];
+        console.log(currentPieceClicked);
         
         let pieceIdx = currentPieceClicked.startingIndex;
         let possibleMovesIdx = this.lookUpAllMoves(squareClass.index, checkers);
+        console.log(possibleMovesIdx);
+
+        let listenToMove = (sC) => {
+          console.log(sC);
+          checkers.currentPlayerTurn.pieces.forEach(piece => {
+            if (piece.startingIndex === squareClass.index) {
+              sC.domSquareElement.append(piece.divElem);
+              squareClass.value = null;
+              console.log(squareClass);
+              sC.value = currentPieceClicked.value;
+              console.log(sC.value);
+              piece.startingIndex = sC.index;
+              sC.domSquareElement.removeEventListener("click", listenToMove);
+
+            }
+          })
+          
+          //end turn after player makes a move
+          checkers.renderTurn(checkers.currentPlayerTurn, checkers.otherPlayerTurn);
+          
+        }
 
 
         //suggestion moves on null squares
         checkers.currentPlayerTurn.squareClasses.forEach((sC) => {
-          if (possibleMovesIdx.includes(sC.index) && sC.value === null) {
-
-            sC.domSquareElement.addEventListener("click", (e) => {
-              console.log("clicked");
-              checkers.currentPlayerTurn.pieces.forEach(piece => {
-                if (piece.startingIndex === squareClass.index) {
-                  sC.domSquareElement.append(piece.divElem);
-                  squareClass.value = null;
-                  sC.value = currentPieceClicked.value;
-                  piece.startingIndex = sC.index;
-                }
-              })
-              
-              //end turn after player makes a move
-              checkers.renderTurn(checkers.currentPlayerTurn, checkers.otherPlayerTurn);
-              
-            })
+          if (possibleMovesIdx.includes(sC.index) && !sC.value) {
+            sC.domSquareElement.addEventListener("click", () => listenToMove(sC));
           }
         }
         )
