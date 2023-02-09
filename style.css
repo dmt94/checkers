@@ -65,7 +65,7 @@ header h2 {
   width: 30vmin;
   height: 39vmin;
   position: absolute;
-  top: 20vmin;
+  top: 40vmin;
   padding: 10vmin 10vmin 9vmin 10vmin;
   border-radius: 50px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
@@ -131,10 +131,14 @@ header h2 {
   font-size: 2.4vmin;
   font-family: 'Unbounded', cursive;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  position: relative;
+  bottom: -1vmin;
+  font-weight: 700;
 }
 #start-game-btn:hover {
   cursor: pointer;
   background-color: #c34bfa;
+  color: white;
 }
 
 #gameboard 
@@ -160,7 +164,6 @@ header h2 {
   display: grid;
   grid-template-columns: repeat(8, 10vmin);
   grid-template-rows: repeat(8, 10vmin);
-  /* border-radius: 2vmin; */
   box-shadow: rgba(148, 148, 180, 0.853) 0px 7px 29px 0px;
 }
 
@@ -265,7 +268,21 @@ header h2 {
   background: rgba(252, 238, 238, 0.583);
 }
 
+footer {
+  margin-top: 16vmin;
+}
+
 /* Fonts */
 .names {
   padding: 2vmin;
+}
+
+#credit-link {
+  color:rgb(108, 252, 132);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+#credit-link:hover {
+  color:rgb(6, 199, 151);
 }

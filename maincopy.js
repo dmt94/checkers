@@ -18,9 +18,6 @@ boardEL.style.visibility = "hidden";
 class Square {
   constructor(domSquareElement, index) {
     this.domSquareElement = domSquareElement;
-    //value represents the piece it holds
-    //if piece is 1 or -1
-    //null = no piece, matches piece value if occupied
     this.value = null;
     this.index = index;
   }
@@ -130,7 +127,6 @@ class Player {
   constructor(playerName) {
     this.pieces = [];
     this.playerName = playerName;
-    this.turn = false;
     this.indexMatch = Square.indexMatch;
     this.setCreatePieces();
   }
@@ -345,8 +341,6 @@ class Checkers {
   }
   //switch turn
   switchTurn(currentPlayerTurn, otherPlayer) {
-    currentPlayerTurn.turn = false;
-    otherPlayer.turn = true;
     this.currentPlayerTurn = otherPlayer;
     this.otherPlayerTurn = currentPlayerTurn;
   }
@@ -354,10 +348,8 @@ class Checkers {
     players.forEach(player => {
       if (player.playerType === "first") {
         this.currentPlayerTurn = player;
-        this.currentPlayerTurn.turn = true;
       } else {
         this.otherPlayerTurn = player;
-        this.otherPlayerTurn.turn = false;
       }
     })
   }
@@ -490,12 +482,10 @@ function setPlayers(nameOne,nameTwo) {
   function setWhoGoesFirst() {
     if (nameOneChoice > nameTwoChoice) {
       nameOne.setPlayerType(PLAYER_1);
-      nameOne.turn = true;
       nameTwo.setPlayerType(PLAYER_2);
       renderPlayerPieces(nameOne);
       renderPlayerPieces(nameTwo);
     } else {
-      nameTwo.turn = true;
       nameTwo.setPlayerType(PLAYER_1);
       nameOne.setPlayerType(PLAYER_2); 
       renderPlayerPieces(nameOne);
