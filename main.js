@@ -18,9 +18,6 @@ boardEL.style.visibility = "hidden";
 class Square {
   constructor(domSquareElement, index) {
     this.domSquareElement = domSquareElement;
-    //value represents the piece it holds
-    //if piece is 1 or -1
-    //null = no piece, matches piece value if occupied
     this.value = null;
     this.index = index;
   }
@@ -88,18 +85,14 @@ class Piece {
     this.player = player;
     this.currentIndexVal = null;
     this.style = {
-      "Cherry": {
-        className: 'cherry-piece',
-        suggestion: 'cherry-t',
-        // image: 'https://cdn-icons-png.flaticon.com/512/7441/7441890.png',
+      "Blueberry": {
+        className: 'blueberry-piece',
         image: 'https://cdn-icons-png.flaticon.com/512/1791/1791354.png',
-        imgIconClassName: "cherry-icon",
+        imgIconClassName: "blueberry-icon",
       },
       "Lemon": {
         className: "lemon-piece",
-        suggestion: "lemon-t",
         image: 'https://cdn-icons-png.flaticon.com/512/2732/2732012.png',
-        // image: 'https://cdn-icons-png.flaticon.com/512/7441/7441890.png',
         imgIconClassName: "lemon-icon",
       },
       shape: 'checker-piece',
@@ -134,7 +127,6 @@ class Player {
   constructor(playerName) {
     this.pieces = [];
     this.playerName = playerName;
-    this.turn = false;
     this.indexMatch = Square.indexMatch;
     this.setCreatePieces();
   }
@@ -199,7 +191,6 @@ class Player {
       }
       //allDiagonal check
       else if (this.indexMatch.allDiagonal.includes(indexVal)) {
-      
         let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
         let diagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
         return [diagonal, antiDiagonal];
@@ -255,34 +246,37 @@ class Player {
   }
 
   // checkIfSpaceAvailable()
-
-
   makeMove(checkers) {
-    
-    checkers.currentPlayerTurn.squareClasses.forEach((squareClass) => {
-      //class properties
-      let index = squareClass.index;
-      let value = squareClass.value;
-      let squareElm = squareClass.domSquareElement;
-      let possibleMovesIdx = this.lookUpAllMoves(squareClass.index, checkers);
+    // let possibleMovesIdx = this.lookUpAllMoves(squareClass.index, checkers);
 
-      squareClass.domSquareElement.addEventListener("click", (e) => {
-        console.log("Current turn", checkers.currentPlayerTurn.playerName);
+    const listenToChoice = (e, checkers) => {
+      let squareDivEl = e.target.parentNode.parentNode;
+      let roundPieceEl = e.target.parentNode;
 
-        if (squareClass.value !== checkers.currentPlayerTurn.playerValue) return;
-        console.log(possibleMovesIdx);
-
-        checkers.renderTurn(checkers.currentPlayerTurn, checkers.otherPlayerTurn);
+      checkers.currentPlayerTurn.squareClasses.forEach((squareClass) => {
+        let classSquareDivEl = squareClass.domSquareElement;
+        if (squareDivEl === classSquareDivEl || e.target === classSquareDivEl) {
+          let targetIdx = squareClass.index;
+          let avMovesForTarget = this.lookUpAllMoves(targetIdx, checkers);
+          let targetObj = {
+            elementClicked: squareDivEl,
+            class: squareClass,
+            availableMoves: avMovesForTarget
+          }
+          console.log(targetObj);
+          
+        }
       })
 
+    }
+    //end of test fn
 
-    })
+    let boardEl = checkers.domElement;
+    boardEl.addEventListener("click", (e) => listenToChoice(e, checkers));
 
-
-
-    
   }
 }
+
 
 class Checkers {
   constructor(domElement, players, messageElement) {
@@ -331,8 +325,6 @@ class Checkers {
   }
   //switch turn
   switchTurn(currentPlayerTurn, otherPlayer) {
-    currentPlayerTurn.turn = false;
-    otherPlayer.turn = true;
     this.currentPlayerTurn = otherPlayer;
     this.otherPlayerTurn = currentPlayerTurn;
   }
@@ -340,10 +332,8 @@ class Checkers {
     players.forEach(player => {
       if (player.playerType === "first") {
         this.currentPlayerTurn = player;
-        this.currentPlayerTurn.turn = true;
       } else {
         this.otherPlayerTurn = player;
-        this.otherPlayerTurn.turn = false;
       }
     })
   }
@@ -419,14 +409,14 @@ class Checkers {
   }) 
 }//end of Checkers Class
 
-let cherry = new Player("Cherry");
+let blueberry = new Player("Blueberry");
 let lemon = new Player("Lemon");
 init();
 
 function init() {
   boardEL.style.display = "none";
-  renderPlayers(cherry, lemon);
-  setGame(cherry, lemon);
+  renderPlayers(blueberry, lemon);
+  setGame(blueberry, lemon);
   startGame();
 }
 function setGame(n1, n2) {
@@ -476,12 +466,10 @@ function setPlayers(nameOne,nameTwo) {
   function setWhoGoesFirst() {
     if (nameOneChoice > nameTwoChoice) {
       nameOne.setPlayerType(PLAYER_1);
-      nameOne.turn = true;
       nameTwo.setPlayerType(PLAYER_2);
       renderPlayerPieces(nameOne);
       renderPlayerPieces(nameTwo);
     } else {
-      nameTwo.turn = true;
       nameTwo.setPlayerType(PLAYER_1);
       nameOne.setPlayerType(PLAYER_2); 
       renderPlayerPieces(nameOne);
