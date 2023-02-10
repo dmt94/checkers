@@ -10,8 +10,8 @@ Players move a checker piece each turn, with the objective of capturing all the 
 - ###### MOVEMENT
   - Normal pieces can only move <i>forward</i> diagonally or anti-diagonally.
   - Pieces need to jump over an opponent's piece once encountered
-- ###### DETERMINING RESULTS
-- ##### WINNER
+###### DETERMINING RESULTS
+- ###### WINNER
   - First player to capture all opponent pieces
   - In this browser game, the mode is set to easy where you just have to capture two of the opponent's pieces!
 
