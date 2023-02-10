@@ -46,7 +46,11 @@ Fruit Checkers is deployed on GitHub Pages:
   - A majority of the code is written using classes, taking advantage of encapsulation.
     - Personally, it was easier to follow the flow of the game when the variables involved are encapsulated into specific methods belonging to classes
 - ###### Bugs
-  - Fixing bugs took a majority of the project time. It was challenging to reproduce a particular bug in my game where a glitch would occur if another checker piece was clicked during a player's turn.  
+  - Fixing bugs took a majority of the project time. It was challenging to reproduce a particular bug in my game where a glitch would occur if another checker piece was clicked during a player's turn.
+
+<img src="./assets/bug.png">
+
+  - The issue seemed to have to do with the suggestion moves (the square divs) of the previous turn still maintaining its event listener
 
 ___
 

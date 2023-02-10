@@ -63,7 +63,6 @@ class Square {
 }
 
 class Piece {
-  isKing = false;
   constructor(divElem, player) {
     this.divElem = divElem;
     this.player = player;
@@ -126,7 +125,6 @@ class Player {
   renderStartingPiecesIndexVal() {
     this.pieceStartingIndexVal = this.getStartingIndice(this.playerValue);
     for (let i = 0; i < this.pieceStartingIndexVal.length; i++) {
-      //adds the property startingIndex to each pieces, setting their value to the startingindexval
       this.pieces[i].startingIndex = this.pieceStartingIndexVal[i];
     }
   }
@@ -145,47 +143,31 @@ class Player {
   checkDiagonalDirection(playerTurn, indexVal) {
     return Math.abs(playerTurn * (-indexVal) + (-9));
   }
-  checkMovesAvailable(indexVal, checkers) {
-    if (checkers.currentPlayerTurn.playerValue === -1) {
-      if (this.indexMatch.edgesAntiDiagonal.includes(indexVal)) {
-        let antiDiagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
-        return [antiDiagonal];
-      }
-      else if (this.indexMatch.edgesDiagonal.includes(indexVal)) {
-        let diagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
-        return [diagonal];
-      }
-      else if (this.indexMatch.allDiagonal.includes(indexVal)) {
-        let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
-        let diagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
-        return [diagonal, antiDiagonal];
-      }
+  checkMovesForPlayer1(indexVal, checkers) {
+    if (this.indexMatch.edgesAntiDiagonal.includes(indexVal)) {
+      return [this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal)];
     }
+    else if (this.indexMatch.edgesDiagonal.includes(indexVal)) {
+      return [this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal)];
+    }
+    else if (this.indexMatch.allDiagonal.includes(indexVal)) {
+      return [this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal), this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal)];
+    }
+  }
+  checkMovesForPlayer2(indexVal, checkers) {
+    if (this.indexMatch.edgesAntiDiagonal.includes(indexVal)) {
+        let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
+      return [antiDiagonal];
 
-    if (checkers.currentPlayerTurn.playerValue === 1) {
-      if (this.indexMatch.lastRow.includes(indexVal)) {
-        if (this.indexMatch.lastRowCorner.includes(indexVal)) {
-          let possibleIndexSpace = this.checkAntiDiagonalDirection(-checkers.currentPlayerTurn.playerValue, indexVal);
-          return [possibleIndexSpace];
-        }
-        let antiDiagonal = this.checkAntiDiagonalDirection(-checkers.currentPlayerTurn.playerValue, indexVal);
-        let diagonal = this.checkDiagonalDirection(-checkers.currentPlayerTurn.playerValue, indexVal);
-          return [antiDiagonal, diagonal];
-      }
-      if (this.indexMatch.edgesAntiDiagonal.includes(indexVal)) {
-        let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
-        return [antiDiagonal];
-      }
-      if (this.indexMatch.edgesDiagonal.includes(indexVal)) {
-        let diagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
-        return [diagonal];
-      }
-      if (this.indexMatch.allDiagonal.includes(indexVal)) {
-        let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
-        let diagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
-        return [diagonal, antiDiagonal];
-      }
+    } else if (this.indexMatch.edgesDiagonal.includes(indexVal)) {
+        return [this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal)];
+
+    } else if (this.indexMatch.allDiagonal.includes(indexVal)) {
+        return [this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal), this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal)];
     }
+  }
+  checkMovesAvailable(indexVal, checkers) {
+    return checkers.currentPlayerTurn.playerValue === -1 ? this.checkMovesForPlayer1(indexVal, checkers) : this.checkMovesForPlayer2(indexVal, checkers);     
   }
   checkIfCorner(checkers, match, sqIdx) {
     if (match.lastRowCorner.includes(sqIdx) ||
@@ -308,10 +290,10 @@ class Checkers {
   }
   clearBoard() {
     this.currentPlayerTurn = null;
-
     this.squareEls.forEach((square) => {
       setTimeout(() => {
         square.innerHTML = ""
+        square.replaceWith(square.cloneNode(true));
       }, 1000)
     });
   }
@@ -384,9 +366,6 @@ class Checkers {
   }
   renderNewBoard() {
     this.squares.forEach(square => square.renderNewBoard());
-  }
-  checkPlayers() {
-    return this.players;
   }
   renderPlayerStartingPieces = ((players) => {
     this.squares.forEach((square) => {
