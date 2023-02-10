@@ -24,7 +24,7 @@ ___
 
 ##### (SOME) FUTURE APP FEATURES:
 - As a player, having an option for a 2 player game or a game against a computer would be fun, because it give a more well-rounded gameplay experience.
-- As a player, I would appreciate a day/night mode button toggle because it would be beneficial to me if I experience eye strain.
+- As a player, I would appreciate a day/night mode button toggle because it would be beneficial to prevent some eye strain.
 
 ___
 
@@ -45,6 +45,8 @@ Fruit Checkers is deployed on GitHub Pages:
 - ###### Classes  
   - A majority of the code is written using classes, taking advantage of encapsulation.
     - Personally, it was easier to follow the flow of the game when the variables involved are encapsulated into specific methods belonging to classes
+- ###### Bugs
+  - Fixing bugs took a majority of the project time. It was challenging to reproduce a particular bug in my game where a glitch would occur if another checker piece was clicked during a player's turn.  
 
 ___
 
