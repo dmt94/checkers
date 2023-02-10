@@ -9,14 +9,21 @@
   color: rgb(252, 243, 184);
 }
 body {
-  background-color: rgb(29, 28, 31);
+  background-color: rgb(27, 27, 28);
 }
-.blueberry-img {
-  width: 20vmin;
-  position: absolute;
-  top: -13vmin;
-  left: 15vmin;
+
+#main-header {
+  background-color: rgb(243, 255, 193);
+  width: 100%;
+  text-align: center;
 }
+#main-header h2 {
+  color: rgb(52, 49, 57);
+  letter-spacing: 1vmin;
+  font-family: 'Unbounded', cursive;
+  padding: 1vmin;
+}
+
 .main-container {
   margin-top: 7vmin;
 }
@@ -185,6 +192,12 @@ header h2 {
 .square 
 .lemon-piece:hover {
   border: 1vmin solid rgba(249, 213, 105, 0.984);
+}
+.blueberry-img {
+  width: 20vmin;
+  position: absolute;
+  top: -13vmin;
+  left: 15vmin;
 }
 #gameboard 
 .moveable-square:hover 

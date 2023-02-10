@@ -1,13 +1,8 @@
-
-/* state variables */
 const PLAYER_1 = "first";
 const PLAYER_2 = "second";
-const ONE_PLAYER = "1player";
-const TWO_PLAYER = "2players";
 let game;
 let gameType;
 
-/* cached element reference */
 let boardEL = document.getElementById("gameboard");
 let squareEl = document.querySelectorAll(".square");
 let startBtn = document.getElementById("start-game-btn");
@@ -65,7 +60,7 @@ class Square {
     this.value = null;
     this.domSquareElement.innerHTML = "";
   }
-}//end of Square class
+}
 
 class Piece {
   isKing = false;
@@ -305,6 +300,7 @@ class Checkers {
   }
   clearBoard() {
     this.currentPlayerTurn = null;
+    
     this.squareEls.forEach((square) => {
       setTimeout(() => {
         square.innerHTML = ""
