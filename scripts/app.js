@@ -1,7 +1,6 @@
 const PLAYER_1 = "first";
 const PLAYER_2 = "second";
 let game;
-let gameType;
 
 const jsConfetti = new JSConfetti();
 let boardEL = document.getElementById("gameboard");
@@ -92,7 +91,6 @@ class Piece {
     imgDivEl.classList.add(this.style[this.player.playerName].imgIconClassName);
     this.divElem.append(imgDivEl);
   }
-
   setValue() {
     this.value = this.player.playerValue;
   }

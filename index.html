@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkers</title>
-  <link rel="stylesheet" href="style.css">
-  <link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-/>
-<script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
-  <script defer src="main.js"></script>
+  <link rel="stylesheet" href="./styles/style.css">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <script
+    src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+  <script defer src="./scripts/app.js"></script>
 </head>
+
 <body class="flex-c">
-  <div id="main-header"><h2>EAT 2 WIN</h2></div>
+  <div id="main-header">
+    <h2>EAT 2 WIN</h2>
+  </div>
 
   <div class="main-container flex-c">
-    <header class="flex-c">      
+    <header class="flex-c">
       <h1 id="winning-message">WINNER</h1>
       <h2 id="blueberry-text">Fruit</h2>
       <h2>Checkers</h2>
     </header>
-    
+
     <div id="popup-roll-dice" class="flex-c">
       <div class="background"></div>
-      <img src="https://cdn-icons-png.flaticon.com/512/1791/1791431.png" alt="" class="blueberry-img">
+      <img src="https://cdn-icons-png.flaticon.com/512/1791/1791431.png" alt=""
+        class="blueberry-img">
       <h3 id="first-player-indicator">Who goes First?</h3>
       <button id="roll-dice-btn">?</button>
       <div class="flex-r">
@@ -105,7 +109,7 @@
     <div id="53" class="square"></div>
     <div id="54" class="square"></div>
     <div id="55" class="square"></div>
-    
+
     <div id="56" class="square"></div>
     <div id="57" class="square"></div>
     <div id="58" class="square"></div>
@@ -116,8 +120,15 @@
     <div id="63" class="square"></div>
   </div>
 
-  <footer>ICONS USED ARE FROM <a href="https://www.flaticon.com/packs/fruits-21" id="credit-link">FLATICON</a></footer>
+  <footer class="flex-c">
+    <span>
+      ICONS USED ARE FROM <a href="https://www.flaticon.com/packs/fruits-21"
+        id="credit-link">FLATICON</a>
+    </span>
+    <span id="made-by"> Made by Daevah Taylaran 🍋 </span>
+  </footer>
 </body>
+
 </html>
 
 <!-- <div class="checker-piece p2-piece"></div> -->
