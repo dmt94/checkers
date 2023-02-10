@@ -8,22 +8,18 @@
   font-family: 'Poppins', sans-serif;
   color: rgb(252, 243, 184);
 }
-
 body {
   background-color: rgb(29, 28, 31);
 }
-
 .blueberry-img {
   width: 20vmin;
   position: absolute;
   top: -13vmin;
   left: 15vmin;
 }
-
 .main-container {
   margin-top: 7vmin;
 }
-
 .flex-c {
   display: flex;
   flex-direction: column;
@@ -34,12 +30,10 @@ body {
   flex-direction: row;
   align-items: center;
 }
-
 header {
   padding: 2vmin;
   margin-bottom: 4vmin;
 }
-
 header h2 {
   letter-spacing: 1vmin;
   text-transform: uppercase;
@@ -48,29 +42,24 @@ header h2 {
   font-family: 'Unbounded', cursive;
   line-height: 6vmin;
 }
-
 #winning-message {
   color: white;
   visibility: hidden;
 }
-
 #blueberry-text {
   color: rgb(163, 163, 255);
 }
-
-/* Choice Divs */
 #popup-roll-dice {
   background-color: #21115df2;
   border: 2px solid rgb(245, 240, 240);
   width: 30vmin;
   height: 39vmin;
   position: absolute;
-  top: 40vmin;
+  top: 48vmin;
   padding: 10vmin 10vmin 9vmin 10vmin;
   border-radius: 50px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
-
 .background {
   background-color: #e4e1f2cb;
   border: 1px solid rgb(255, 233, 233);
@@ -84,7 +73,6 @@ header h2 {
   padding: 10vmin 10vmin 9vmin 10vmin;
   border-radius: 50px;
 }
-
 #popup-roll-dice h3 {
   font-size: 4vmin;
   text-align: center;
@@ -97,7 +85,6 @@ header h2 {
 #popup-roll-dice h2 {
   font-size: 7vmin;
 }
-
 #gameboard .square {
   background-color: #d1cbff;
   display: flex;
@@ -106,7 +93,6 @@ header h2 {
   border: 0.3vmin solid rgba(238, 227, 140, 0.511);
   border-radius: 0.2vmin;
 }
-
 #roll-dice-btn {
   background-color: #574acf;
   font-size: 5vmin;
@@ -115,7 +101,6 @@ header h2 {
   width: 10vmin;
   height: 10vmin;
   border: none;
-  /* border: 1px solid rgba(255, 255, 255, 0.851); */
   box-shadow: rgba(240, 248, 86, 0.919) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
 #roll-dice-btn:hover {
@@ -140,7 +125,6 @@ header h2 {
   background-color: #c34bfa;
   color: white;
 }
-
 #gameboard 
 .moveable-square {
   background-color: #312e2d;
@@ -148,7 +132,6 @@ header h2 {
   border: 0.8vmin solid rgba(255, 255, 255, 0);
   z-index: 5;
 }
-
 #gameboard 
 .moveable-square:hover {
   cursor: pointer;
@@ -156,7 +139,6 @@ header h2 {
   background-color: #aa8abf72;
   box-shadow: none;
 }
-
 #gameboard {
   justify-content: center;
   border: 0.4vmin solid #ffffff;;
@@ -166,8 +148,6 @@ header h2 {
   grid-template-rows: repeat(8, 10vmin);
   box-shadow: rgba(148, 148, 180, 0.853) 0px 7px 29px 0px;
 }
-
-/* Player Piece */
 .checker-piece {
   width: 9vmin;
   height: 9vmin;
@@ -177,13 +157,10 @@ header h2 {
   animation-duration: 1s;
   z-index: 3;
 }
-
 .piece-icon {
   width: 9vmin;
   border-radius: 50px;
 }
-
-/* lemon */
 #gameboard 
 .moveable-square:hover 
 .lemon-icon {
@@ -204,23 +181,11 @@ header h2 {
   background: rgb(184, 160, 248);
   border: 1vmin solid rgba(164, 124, 244, 0.984);
 }
-
 #gameboard
 .square 
 .lemon-piece:hover {
   border: 1vmin solid rgba(249, 213, 105, 0.984);
 }
-
-#gameboard 
-.square 
-.lemon-t {
-  width: 8vmin;
-  height: 8vmin;
-  border-radius: 50px;
-  background: rgba(58, 55, 234, 0.583);
-}
-
-/* Cherry */
 #gameboard 
 .moveable-square:hover 
 .checker-piece {
@@ -248,7 +213,6 @@ header h2 {
 .blueberry-icon {
   border-radius: 0px;
 }
-
 #gameboard 
 .moveable-square:hover 
 .blueberry-icon {
@@ -258,31 +222,17 @@ header h2 {
   animation-iteration-count: infinite;
   z-index: 3;
 }
-
-#gameboard 
-.square 
-.suggestion {
-  width: 8vmin;
-  height: 8vmin;
-  border-radius: 50px;
-  background: rgba(252, 238, 238, 0.583);
-}
-
 footer {
   margin-top: 16vmin;
 }
-
-/* Fonts */
 .names {
   padding: 2vmin;
 }
-
 #credit-link {
   color:rgb(108, 252, 132);
   font-weight: 900;
   text-decoration: none;
 }
-
 #credit-link:hover {
   color:rgb(6, 199, 151);
 }

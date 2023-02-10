@@ -32,7 +32,6 @@ class Square {
   }
   renderNewBoard() {
     this.fillMoveableAreas();
-    // this.blockOutsideClick();
   }
   renderMovableSquareBg() {
     this.domSquareElement.classList.add("moveable-square");
@@ -58,16 +57,6 @@ class Square {
       this.domSquareElement.append(piece.divElem);
       this.renderValue(piece);
     }
-  }
-  renderSuggestionMoves(currentPlayerTurn) {
-    this.domSquareElement.addEventListener("click", (e) => {
-      if (
-        !this.moveableSquares.includes(this.index) 
-        || this.value === null
-        || this.value !== currentPlayerTurn.playerValue
-        ) return;
-      console.log(currentPlayerTurn);
-    })
   }
   renderValue(piece) {
     this.value = piece.value;
@@ -107,19 +96,9 @@ class Piece {
     imgDivEl.classList.add(this.style[this.player.playerName].imgIconClassName);
     this.divElem.append(imgDivEl);
   }
-  setToKing() {
-    this.isKing = true;
-  }
-  //might not be necessary if player makeMove()method "removes" other player's piece
-  renderCaptured() {
-    this.value = null;
-  }
+
   setValue() {
-    //if captured, set value to "null"
     this.value = this.player.playerValue;
-  }
-  updateIndexValue(newValue) {
-    this.startingIndex = newValue;
   }
 }
 
@@ -150,9 +129,6 @@ class Player {
     this.pieces = this.pieces.map((el) => new Piece(el, this));
     this.updateTotalPieces();
   }
-  getPiece() {
-    console.log(this.pieces);
-  }
   renderStartingPiecesIndexVal() {
     this.pieceStartingIndexVal = this.getStartingIndice(this.playerValue);
     for (let i = 0; i < this.pieceStartingIndexVal.length; i++) {
@@ -176,29 +152,23 @@ class Player {
     return Math.abs(playerTurn * (-indexVal) + (-9));
   }
   checkMovesAvailable(indexVal, checkers) {
-    //-1
     if (checkers.currentPlayerTurn.playerValue === -1) {
-      //last row check
-      //antidiagonal check
       if (this.indexMatch.edgesAntiDiagonal.includes(indexVal)) {
         let antiDiagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
         return [antiDiagonal];
       }
-      //diagonal check
       else if (this.indexMatch.edgesDiagonal.includes(indexVal)) {
         let diagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
         return [diagonal];
       }
-      //allDiagonal check
       else if (this.indexMatch.allDiagonal.includes(indexVal)) {
         let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
         let diagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
         return [diagonal, antiDiagonal];
       }
     }
-    //1
+
     if (checkers.currentPlayerTurn.playerValue === 1) {
-      //last row check
       if (this.indexMatch.lastRow.includes(indexVal)) {
         if (this.indexMatch.lastRowCorner.includes(indexVal)) {
           let possibleIndexSpace = this.checkAntiDiagonalDirection(-checkers.currentPlayerTurn.playerValue, indexVal);
@@ -208,17 +178,14 @@ class Player {
         let diagonal = this.checkDiagonalDirection(-checkers.currentPlayerTurn.playerValue, indexVal);
           return [antiDiagonal, diagonal];
       }
-      //antidiagonal check
       if (this.indexMatch.edgesAntiDiagonal.includes(indexVal)) {
         let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
         return [antiDiagonal];
       }
-      //diagonal check
       if (this.indexMatch.edgesDiagonal.includes(indexVal)) {
         let diagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
         return [diagonal];
       }
-      //allDiagonal check
       if (this.indexMatch.allDiagonal.includes(indexVal)) {
         let antiDiagonal = this.checkAntiDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
         let diagonal = this.checkDiagonalDirection(checkers.currentPlayerTurn.playerValue, indexVal);
@@ -244,61 +211,60 @@ class Player {
     possibleMovesIdx.push(morePossibleMoves);
     return possibleMovesIdx.filter((number) => number !== undefined)[0];
   }
-
-  // checkIfSpaceAvailable()
   makeMove(checkers) {
-    // let possibleMovesIdx = this.lookUpAllMoves(squareClass.index, checkers);
+    checkers.currentPlayerTurn.squareClasses.forEach((squareClass) => { 
+      let listenToFirstClick = (squareClass) => {
+        if (squareClass.value !== checkers.currentPlayerTurn.playerValue) return;
+        let currentPieceClicked = checkers.currentPlayerTurn.pieces.filter((piece) => piece.startingIndex === squareClass.index)[0];
+        
+        let possibleMovesIdx = this.lookUpAllMoves(squareClass.index, checkers);
 
-    const listenToChoice = (e, checkers) => {
-      let squareDivEl = e.target.parentNode.parentNode;
-      let roundPieceEl = e.target.parentNode;
+        let listenToMove = (sC) => {
+          squareClass.domSquareElement.removeEventListener("click", listenToFirstClick);
+          checkers.currentPlayerTurn.pieces.forEach(piece => {
+            if (piece.startingIndex === squareClass.index && sC.value === null) {
+              sC.domSquareElement.append(piece.divElem);
+              squareClass.value = null;
+      
+              sC.value = currentPieceClicked.value;
+              piece.startingIndex = sC.index;
 
-      checkers.currentPlayerTurn.squareClasses.forEach((squareClass) => {
-        let classSquareDivEl = squareClass.domSquareElement;
-        if (squareDivEl === classSquareDivEl || e.target === classSquareDivEl) {
-          let targetIdx = squareClass.index;
-          let avMovesForTarget = this.lookUpAllMoves(targetIdx, checkers);
-          let targetObj = {
-            elementClicked: squareDivEl,
-            class: squareClass,
-            availableMoves: avMovesForTarget
-          }
-          
-          // add event listeners that are in availableMoves
-          let availableMovesSqEls = [];
-          targetObj.availableMoves.forEach((idx) => {
-            let availableMovesSqCl = checkers.currentPlayerTurn.squareClasses.filter(sqClass => sqClass.index === idx)[0];
-            availableMovesSqEls.push(availableMovesSqCl);
+              if (sC.value === currentPieceClicked.value) {
+                squareClass.domSquareElement.removeEventListener("click", listenToMove);
+                sC.domSquareElement.removeEventListener("click", listenToMove);
+                checkers.renderTurn(checkers.currentPlayerTurn, checkers.otherPlayerTurn);
+              }
+            }
           })
-          
-          availableMovesSqEls.forEach((sqElsClass) => {
-            sqElsClass.domSquareElement.style.backgroundColor = "red";
-            sqElsClass.domSquareElement.addEventListener("click", () => {
-
-              checkers.currentPlayerTurn.pieces.forEach(piece => {    
-                if (piece === pieceClicked) {
-                  sqElsClass.domSquareElement.append(piece.divElem);
-                }      
-            })
-              console.log("clicked");
-            })
-          })
-
-
-
-          
         }
-      })
-
-    }
-    //end of test fn
-
-    let boardEl = checkers.domElement;
-    boardEl.addEventListener("click", (e) => listenToChoice(e, checkers));
-
+        checkers.currentPlayerTurn.squareClasses.forEach((sC) => {
+          if (!possibleMovesIdx.includes(sC.index)) return;
+          if (sC.value === checkers.otherPlayerTurn.playerValue) {
+            let opponentArea = this.lookUpAllMoves(sC.index, checkers);
+            opponentArea = opponentArea.map((idx) => document.getElementById(String(idx)));
+            opponentArea.forEach((div) => {
+              div.addEventListener("click", (e) => {
+                e.target.append(currentPieceClicked.divElem);                
+                sC.domSquareElement.innerHTML = "";
+                sC.value = null;
+                let eatenPiece = checkers.otherPlayerTurn.pieces.filter(piece => piece.startingIndex === sC.index)[0];
+              
+                checkers.otherPlayerTurn.pieces.splice(checkers.otherPlayerTurn.pieces.indexOf(eatenPiece), 1);
+                
+                checkers.renderTurn(checkers.currentPlayerTurn, checkers.otherPlayerTurn);              
+              })
+            })
+          }
+          else if (!sC.value) {
+            sC.domSquareElement.addEventListener("click", () => listenToMove(sC));
+          }
+         }
+        )      
+      }
+      squareClass.domSquareElement.addEventListener("click", () => listenToFirstClick(squareClass));
+    })
   }
 }
-
 
 class Checkers {
   constructor(domElement, players, messageElement) {
@@ -309,7 +275,6 @@ class Checkers {
     this.currentPlayerTurn = null;
     this.winner = null;
   }
-  //gameplay
   play() {
     this.renderFirstMove();
   }
@@ -318,7 +283,6 @@ class Checkers {
     this.setFirstTurn(this.players);
     this.renderMoves();
   }
-    //render regular moves
   renderMoves() {
     this.currentPlayerTurn.makeMove(this);
   }
@@ -331,10 +295,8 @@ class Checkers {
       this.endGame(winner);
     }
   }
-  //checkForWinners
   checkForWinner(currentPlayerTurn, otherPlayer) {
-    //check if current player just ate all the other players piece
-    return otherPlayer.pieces.length === 0 ? currentPlayerTurn : null
+    return otherPlayer.pieces.length === 10 ? currentPlayerTurn : null
   }
   endGame(winningPlayer) {
     winningMsg.innerText = `${winningPlayer.playerName} wins!`;
@@ -343,9 +305,12 @@ class Checkers {
   }
   clearBoard() {
     this.currentPlayerTurn = null;
-    // this.squareEls.forEach((square) => square.innerHTML = "");
+    this.squareEls.forEach((square) => {
+      setTimeout(() => {
+        square.innerHTML = ""
+      }, 1000)
+    });
   }
-  //switch turn
   switchTurn(currentPlayerTurn, otherPlayer) {
     this.currentPlayerTurn = otherPlayer;
     this.otherPlayerTurn = currentPlayerTurn;
@@ -425,11 +390,10 @@ class Checkers {
         player.pieces.forEach((piece) => {
           square.renderStartingPieces(piece);
         })
-      })
-      
+      })      
     } )
   }) 
-}//end of Checkers Class
+}
 
 let blueberry = new Player("Blueberry");
 let lemon = new Player("Lemon");
