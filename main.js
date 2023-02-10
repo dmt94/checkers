@@ -3,6 +3,7 @@ const PLAYER_2 = "second";
 let game;
 let gameType;
 
+const jsConfetti = new JSConfetti();
 let boardEL = document.getElementById("gameboard");
 let squareEl = document.querySelectorAll(".square");
 let startBtn = document.getElementById("start-game-btn");
@@ -294,13 +295,22 @@ class Checkers {
     return otherPlayer.pieces.length === 10 ? currentPlayerTurn : null
   }
   endGame(winningPlayer) {
-    winningMsg.innerText = `${winningPlayer.playerName} wins!`;
+    winningMsg.innerText = `${winningPlayer.playerName} wins!`
     winningMsg.style.visibility = "visible";
+    if (winningPlayer === blueberry) {
+      jsConfetti.addConfetti({
+        emojis: ['🫐','🫐','🍒'],
+        emojiSize: 180
+      })} else if (winningPlayer === lemon) {
+      jsConfetti.addConfetti({
+        emojis: ['🍋', '🍊', '🍋'],
+        emojiSize: 180
+      })}
     this.clearBoard();
   }
   clearBoard() {
     this.currentPlayerTurn = null;
-    
+
     this.squareEls.forEach((square) => {
       setTimeout(() => {
         square.innerHTML = ""
